@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Apex Digital ATM{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- ATM Top Navigation Bar -->
+    <header class="atm-header">
+        <div class="header-container">
+            <a href="{% if is_logged_in %}/dashboard{% else %}/login{% endif %}" class="brand-wrapper">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div class="brand-info">
+                    <h1>APEX ATM</h1>
+                    <span class="terminal-badge">
+                        <span class="status-dot"></span> TERMINAL #ATM-4091 • ONLINE
+                    </span>
+                </div>
+            </a>
+
+            <div class="header-status">
+                <div class="live-time-pill" title="Live Terminal Time">
+                    <i class="fa-regular fa-clock" style="color: var(--accent-secondary);"></i>
+                    <span id="liveClock">Loading time...</span>
+                </div>
+
+                {% if is_logged_in %}
+                <div class="user-nav-badge">
+                    <div class="avatar-initial">{{ session_user[0] | upper if session_user else 'U' }}</div>
+                    <span class="user-nav-name">{{ session_user }}</span>
+                </div>
+                <a href="/logout" class="nav-btn nav-btn-logout" title="Safely eject card and exit">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Eject / Exit</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Viewport -->
+    <main class="main-viewport">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- ATM Kiosk Footer -->
+    <footer class="atm-footer">
+        <div class="footer-badges">
+            <span class="footer-badge">
+                <i class="fa-solid fa-shield-halved" style="color: var(--accent-emerald);"></i> 256-Bit Military Encryption
+            </span>
+            <span class="footer-badge">
+                <i class="fa-solid fa-lock" style="color: var(--accent-secondary);"></i> EMV Chip Certified
+            </span>
+            <span class="footer-badge">
+                <i class="fa-solid fa-fingerprint" style="color: var(--accent-primary);"></i> Secure Session Guard
+            </span>
+        </div>
+        <p>&copy; 2026 Apex Global Banking Corp. All transactions are logged and encrypted.</p>
+    </footer>
+
+    <!-- Interactive Client Script -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

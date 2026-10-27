@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Recover PIN • Step 3 (Set New PIN){% endblock %}
+
+{% block content %}
+<div class="form-center-wrapper">
+    <div class="atm-card-glass">
+        <!-- Stepper Indicator -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-bottom: 2rem;">
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-emerald); color: #fff; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-check"></i></div>
+            <div style="width: 40px; height: 2px; background: var(--accent-emerald);"></div>
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-emerald); color: #fff; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-check"></i></div>
+            <div style="width: 40px; height: 2px; background: var(--accent-emerald);"></div>
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-primary); color: #fff; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; box-shadow: var(--glow-primary);">3</div>
+        </div>
+
+        <div class="page-header">
+            <div class="page-header-icon" style="color: var(--accent-emerald); background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.25);">
+                <i class="fa-solid fa-lock-open"></i>
+            </div>
+            <h2>Create New ATM PIN</h2>
+            <p>Set a secure 4 to 8 digit numeric security PIN for your card</p>
+        </div>
+
+        {% if info %}
+        <div class="alert-banner alert-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>{{ info }}</span>
+        </div>
+        {% endif %}
+
+        <form method="post" class="atm-form" action="/setuppin">
+            <div class="input-group">
+                <label for="pin">
+                    <span>New Security PIN</span>
+                    <span style="font-size: 0.75rem; color: var(--accent-secondary);">4-8 Digits</span>
+                </label>
+                <div class="input-field-wrapper">
+                    <i class="fa-solid fa-key input-field-icon"></i>
+                    <input type="password" id="pin" name="pin" class="atm-input pin-style" placeholder="••••" maxlength="8" required autofocus autocomplete="new-password">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="cpin">
+                    <span>Confirm New PIN</span>
+                    <span style="font-size: 0.75rem; color: var(--accent-secondary);">Must Match</span>
+                </label>
+                <div class="input-field-wrapper">
+                    <i class="fa-solid fa-check-double input-field-icon"></i>
+                    <input type="password" id="cpin" name="cpin" class="atm-input pin-style" placeholder="••••" maxlength="8" required autocomplete="new-password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="background: linear-gradient(135deg, #10b981 0%, #6366f1 100%);">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Save New PIN & Continue</span>
+            </button>
+
+            <a href="/login" class="btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-xmark"></i>
+                <span>Cancel & Return to Login</span>
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

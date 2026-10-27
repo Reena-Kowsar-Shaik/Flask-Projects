@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Cash Deposit{% endblock %}
+
+{% block content %}
+<div class="form-center-wrapper">
+    <div class="atm-card-glass">
+        <div class="page-header">
+            <div class="page-header-icon" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.25); color: var(--accent-emerald); box-shadow: var(--glow-emerald);">
+                <i class="fa-solid fa-circle-arrow-down"></i>
+            </div>
+            <h2>Cash Deposit</h2>
+            <p>Insert currency notes into the ATM bill acceptor</p>
+        </div>
+
+        {% if info %}
+        <div class="alert-banner alert-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>{{ info }}</span>
+        </div>
+        {% endif %}
+
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
+            <span style="color: var(--text-secondary);">Current Balance:</span>
+            <span style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-emerald);">₹{{ "{:,}".format(balance) if balance is defined else '0' }}</span>
+        </div>
+
+        <form method="post" class="atm-form" action="/deposit">
+            <div class="input-group">
+                <label for="amountInput">
+                    <span>Deposit Amount</span>
+                    <span style="font-size: 0.75rem; color: var(--accent-secondary);">Min: ₹100</span>
+                </label>
+                <div class="amount-wrapper">
+                    <span class="currency-symbol">₹</span>
+                    <input type="number" id="amountInput" name="amount" class="atm-input amount-input" placeholder="0" min="100" step="100" required autofocus>
+                </div>
+            </div>
+
+            <!-- Quick Preset Chips -->
+            <div>
+                <div class="preset-chips-title">Quick Select Presets</div>
+                <div class="preset-chips">
+                    <button type="button" class="preset-chip" data-amount="500">+₹500</button>
+                    <button type="button" class="preset-chip" data-amount="1000">+₹1,000</button>
+                    <button type="button" class="preset-chip" data-amount="2000">+₹2,000</button>
+                    <button type="button" class="preset-chip" data-amount="5000">+₹5,000</button>
+                </div>
+            </div>
+
+            <div style="font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0;">
+                <i class="fa-solid fa-circle-info"></i> Acceptable notes: ₹100, ₹200, ₹500 denominations.
+            </div>
+
+            <button type="submit" class="btn-primary" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); box-shadow: var(--shadow-md), var(--glow-emerald);">
+                <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                <span>Confirm & Deposit Notes</span>
+            </button>
+
+            <a href="/dashboard" class="btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

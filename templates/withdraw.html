@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Cash Withdrawal{% endblock %}
+
+{% block content %}
+<div class="form-center-wrapper">
+    <div class="atm-card-glass">
+        <div class="page-header">
+            <div class="page-header-icon" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.25); color: var(--accent-amber); box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+            </div>
+            <h2>Cash Withdrawal</h2>
+            <p>Select or enter the amount you wish to withdraw</p>
+        </div>
+
+        {% if info %}
+        <div class="alert-banner alert-error">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>{{ info }}</span>
+        </div>
+        {% endif %}
+
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
+            <span style="color: var(--text-secondary);">Available Balance:</span>
+            <span style="font-family: var(--font-mono); font-weight: 700; color: #fff;">₹{{ "{:,}".format(balance) if balance is defined else '0' }}</span>
+        </div>
+
+        <form method="post" class="atm-form" action="/withdraw">
+            <div class="input-group">
+                <label for="amountInput">
+                    <span>Withdrawal Amount</span>
+                    <span style="font-size: 0.75rem; color: var(--accent-amber);">Multiples of ₹100</span>
+                </label>
+                <div class="amount-wrapper">
+                    <span class="currency-symbol" style="color: var(--accent-amber);">₹</span>
+                    <input type="number" id="amountInput" name="amount" class="atm-input amount-input" style="color: var(--accent-amber);" placeholder="0" min="100" max="{{ balance if balance is defined else 50000 }}" step="100" required autofocus>
+                </div>
+            </div>
+
+            <!-- Quick Preset Chips -->
+            <div>
+                <div class="preset-chips-title">Quick Cash Presets</div>
+                <div class="preset-chips">
+                    <button type="button" class="preset-chip" data-amount="500">₹500</button>
+                    <button type="button" class="preset-chip" data-amount="1000">₹1,000</button>
+                    <button type="button" class="preset-chip" data-amount="2000">₹2,000</button>
+                    <button type="button" class="preset-chip" data-amount="5000">₹5,000</button>
+                </div>
+            </div>
+
+            <div style="font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0;">
+                <i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-amber);"></i> Ensure cash dispenser slot is clear before dispensing.
+            </div>
+
+            <button type="submit" class="btn-primary" style="background: linear-gradient(135deg, #f59e0b 0%, #f43f5e 100%); box-shadow: var(--shadow-md), var(--glow-rose);">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>Dispense Cash Immediately</span>
+            </button>
+
+            <a href="/dashboard" class="btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

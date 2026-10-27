@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Account Dashboard{% endblock %}
+
+{% block content %}
+<div style="max-width: 860px; margin: 0 auto; width: 100%;">
+    <!-- Virtual Card Graphic -->
+    <div class="virtual-card-wrapper">
+        <div class="virtual-card">
+            <div class="card-top-row">
+                <div class="card-bank-name">
+                    <i class="fa-solid fa-atom"></i> APEX PLATINUM
+                </div>
+                <div class="card-contactless">
+                    <i class="fa-solid fa-wifi" style="transform: rotate(90deg);"></i>
+                </div>
+            </div>
+
+            <div class="card-middle-row">
+                <div class="card-chip"></div>
+                <div class="card-number-display">
+                    •••• •••• •••• {{ user.accnum[-4:] if user and user.accnum else '4091' }}
+                </div>
+            </div>
+
+            <div class="card-bottom-row">
+                <div class="card-holder-info">
+                    <span class="card-holder-label">Cardholder</span>
+                    <span class="card-holder-name">{{ (user.name if user and user.name else user.username if user else 'VALUED CUSTOMER') }}</span>
+                </div>
+                <div class="card-expiry-info">
+                    <span class="card-holder-label">Expires</span>
+                    <div class="card-expiry-value">12/30</div>
+                </div>
+                <div class="card-network-logo">
+                    VISA
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Headline -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 700; color: #fff;">
+            Hello, {{ (user.name if user and user.name else user.username if user else 'Customer') | capitalize }}! 👋
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 1rem;">
+            Select a service below to proceed with your banking session
+        </p>
+    </div>
+
+    <!-- ATM 4-Grid Action Tiles -->
+    <div class="dashboard-actions-grid">
+        <!-- Tile 1: Check Balance -->
+        <a href="/checkbalance" class="action-tile tile-balance">
+            <div class="tile-icon-box">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="tile-title">Check Balance</div>
+            <div class="tile-desc">Inquire current balance and view available funds.</div>
+            <div class="tile-arrow" style="color: #22d3ee;">
+                <span>View Balance</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+        <!-- Tile 2: Cash Deposit -->
+        <a href="/deposit" class="action-tile tile-deposit">
+            <div class="tile-icon-box">
+                <i class="fa-solid fa-circle-arrow-down"></i>
+            </div>
+            <div class="tile-title">Deposit Money</div>
+            <div class="tile-desc">Deposit currency instantly with automated credit.</div>
+            <div class="tile-arrow" style="color: #34d399;">
+                <span>Deposit Funds</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+        <!-- Tile 3: Cash Withdrawal -->
+        <a href="/withdraw" class="action-tile tile-withdraw">
+            <div class="tile-icon-box">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+            </div>
+            <div class="tile-title">Withdraw Cash</div>
+            <div class="tile-desc">Fast cash withdrawal with instant dispenser notes.</div>
+            <div class="tile-arrow" style="color: #fbbf24;">
+                <span>Dispense Cash</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+
+        <!-- Tile 4: Transaction History -->
+        <a href="/transactions" class="action-tile tile-transactions">
+            <div class="tile-icon-box">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div class="tile-title">Transaction History</div>
+            <div class="tile-desc">Audit your mini-statement and recent account logs.</div>
+            <div class="tile-arrow" style="color: #a78bfa;">
+                <span>View Statement</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

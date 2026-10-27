@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Recover PIN • Step 2 (Verify OTP){% endblock %}
+
+{% block content %}
+<div class="form-center-wrapper">
+    <div class="atm-card-glass">
+        <!-- Stepper Indicator -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-bottom: 2rem;">
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-emerald); color: #fff; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-check"></i></div>
+            <div style="width: 40px; height: 2px; background: var(--accent-emerald);"></div>
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-primary); color: #fff; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; box-shadow: var(--glow-primary);">2</div>
+            <div style="width: 40px; height: 2px; background: rgba(255,255,255,0.1);"></div>
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.06); color: var(--text-muted); font-size: 0.8rem; display: flex; align-items: center; justify-content: center;">3</div>
+        </div>
+
+        <div class="page-header">
+            <div class="page-header-icon" style="color: var(--accent-secondary);">
+                <i class="fa-solid fa-shield-keyhole"></i>
+            </div>
+            <h2>Enter Security OTP</h2>
+            <p>Please enter the 6-digit code sent to your email</p>
+        </div>
+
+        {% if info %}
+        <div class="alert-banner alert-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>{{ info }}</span>
+        </div>
+        {% endif %}
+
+        {% if otp_hint %}
+        <div class="alert-banner alert-info" style="font-size: 0.85rem;">
+            <i class="fa-solid fa-terminal"></i>
+            <span><strong>Development Mode OTP:</strong> <code style="font-family: var(--font-mono); font-size: 1.1rem; letter-spacing: 2px; color: #fff; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">{{ otp_hint }}</code></span>
+        </div>
+        {% endif %}
+
+        <form method="post" class="atm-form" action="/verify">
+            <div class="input-group">
+                <label for="otp">
+                    <span>One-Time Password (OTP)</span>
+                    <span style="font-size: 0.75rem; color: var(--accent-secondary);">6-Digit Code</span>
+                </label>
+                <div class="input-field-wrapper">
+                    <i class="fa-solid fa-key input-field-icon"></i>
+                    <input type="text" id="otp" name="otp" class="atm-input pin-style" placeholder="123456" maxlength="6" pattern="[0-9]{6}" required autofocus autocomplete="one-time-code" style="text-align: center;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Validate & Continue</span>
+            </button>
+
+            <a href="/confirmemail" class="btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+                <span>Change Email / Request New Code</span>
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

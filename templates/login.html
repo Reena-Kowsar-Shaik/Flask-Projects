@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Secure Customer Login{% endblock %}
+
+{% block content %}
+<div class="form-center-wrapper">
+    <div class="atm-card-glass">
+        <div class="page-header">
+            <div class="page-header-icon">
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <h2>Insert Your Card</h2>
+            <p>Please enter your account number and confidential PIN</p>
+        </div>
+
+        {% if info %}
+        <div class="alert-banner {% if 'success' in info.lower() or 'updated' in info.lower() %}alert-success{% elif 'logged out' in info.lower() %}alert-info{% else %}alert-error{% endif %}">
+            <i class="fa-solid {% if 'success' in info.lower() or 'updated' in info.lower() %}fa-circle-check{% elif 'logged out' in info.lower() %}fa-circle-info{% else %}fa-circle-exclamation{% endif %}"></i>
+            <span>{{ info }}</span>
+        </div>
+        {% endif %}
+
+        <form method="post" class="atm-form" action="/login">
+            <div class="input-group">
+                <label for="accnum">
+                    <span>Account Number</span>
+                    <span style="font-size: 0.72rem; color: var(--accent-secondary);"><i class="fa-solid fa-id-card"></i> 9 Digits</span>
+                </label>
+                <div class="input-field-wrapper">
+                    <i class="fa-regular fa-credit-card input-field-icon"></i>
+                    <input type="text" id="accnum" name="accnum" class="atm-input" placeholder="e.g. 123456789" required autocomplete="off">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="pin">
+                    <span>Secret Security PIN</span>
+                    <a href="/confirmemail" style="font-size: 0.75rem; text-transform: none; letter-spacing: normal;">Forgot PIN?</a>
+                </label>
+                <div class="input-field-wrapper">
+                    <i class="fa-solid fa-lock input-field-icon"></i>
+                    <input type="password" id="pin" name="pin" class="atm-input pin-style" placeholder="•••••" maxlength="8" required autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="loginSubmitBtn">
+                <i class="fa-solid fa-unlock-keyhole"></i>
+                <span>Authenticate & Access Account</span>
+            </button>
+        </form>
+
+        <!-- Quick Demo Credentials For Easy Testing -->
+        <div class="demo-credentials-card">
+            <div class="demo-title">
+                <span><i class="fa-solid fa-bolt" style="color: var(--accent-amber);"></i> Quick Demo Accounts</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">1-Click Fill</span>
+            </div>
+            <div class="demo-credentials-row">
+                <span><strong>Reena:</strong> Acc: 123456789 (PIN: 12345)</span>
+                <button type="button" class="demo-chip-btn js-demo-fill" data-acc="123456789" data-pin="12345">Use</button>
+            </div>
+            <div class="demo-credentials-row">
+                <span><strong>Kowsar:</strong> Acc: 234567892 (PIN: 12345)</span>
+                <button type="button" class="demo-chip-btn js-demo-fill" data-acc="234567892" data-pin="12345">Use</button>
+            </div>
+            <div class="demo-credentials-row">
+                <span><strong>Sneha:</strong> Acc: 345678923 (PIN: 12345)</span>
+                <button type="button" class="demo-chip-btn js-demo-fill" data-acc="345678923" data-pin="12345">Use</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

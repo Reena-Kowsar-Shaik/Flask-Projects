@@ -1,0 +1,41 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "reena",
+            "username": "reena",
+            "accnum": "123456789",
+            "email": "reena@gmail.com",
+            "pin": "12345",
+            "History": [
+                "100000 - Withdrawn",
+                "200 - Deposited",
+                "1000 - Deposited",
+                "5000 - Withdrawn",
+                "100000 - Deposited",
+                "500 - Withdrawn"
+            ],
+            "balance": 95700
+        },
+        {
+            "id": 2,
+            "name": "kowsar",
+            "username": "kowsar",
+            "accnum": "234567892",
+            "email": "kowsar@gmail.com",
+            "pin": "12345",
+            "History": [],
+            "balance": 200000
+        },
+        {
+            "id": 3,
+            "name": "sneha",
+            "username": "sneha",
+            "accnum": "345678923",
+            "email": "sneha@gmail.com",
+            "pin": "12345",
+            "History": [],
+            "balance": 300000
+        }
+    ]
+}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Transaction Statement{% endblock %}
+
+{% block content %}
+<div style="max-width: 780px; margin: 0 auto; width: 100%;">
+    <div class="atm-card-glass">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: gap; gap: 1rem;">
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.75rem; font-weight: 700; color: #fff;">
+                    <i class="fa-solid fa-receipt" style="color: var(--accent-secondary); margin-right: 0.5rem;"></i> Transaction Statement
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem;">
+                    Account Statement for <strong style="color: #fff; text-transform: capitalize;">{{ user.name if user and user.name else user.username if user else 'Customer' }}</strong> (•••• {{ user.accnum[-4:] if user and user.accnum else '4091' }})
+                </p>
+            </div>
+            <button onclick="window.print()" class="btn-secondary" style="width: auto; padding: 0.5rem 0.9rem; font-size: 0.82rem; cursor: pointer;">
+                <i class="fa-solid fa-print"></i> Print Receipt
+            </button>
+        </div>
+
+        {% if history and history|length > 0 %}
+        <div class="table-responsive-wrapper">
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Type</th>
+                        <th style="width: 45%;">Transaction Details</th>
+                        <th style="width: 25%; text-align: right;">Amount</th>
+                        <th style="width: 15%; text-align: right;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in history %}
+                    {% set is_deposit = 'Deposited' in item %}
+                    {% set is_withdraw = 'Withdrawn' in item %}
+                    <tr>
+                        <td>
+                            {% if is_deposit %}
+                            <span class="badge-tx tx-credit" title="Deposit Credit">
+                                <i class="fa-solid fa-arrow-down-left"></i> In
+                            </span>
+                            {% elif is_withdraw %}
+                            <span class="badge-tx tx-debit" title="Cash Withdrawal">
+                                <i class="fa-solid fa-arrow-up-right"></i> Out
+                            </span>
+                            {% else %}
+                            <span class="badge-tx" style="background: rgba(255,255,255,0.06); color: var(--text-secondary);">
+                                <i class="fa-solid fa-circle-dot"></i> Log
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; font-size: 0.92rem;">
+                                {% if is_deposit %}ATM Cash Inward Deposit{% elif is_withdraw %}ATM Cash Outward Dispense{% else %}ATM Session Action{% endif %}
+                            </div>
+                            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem;">
+                                Ref #TXN-{{ loop.index0 * 137 + 10482 }} • Electronic Terminal
+                            </div>
+                        </td>
+                        <td style="text-align: right; font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; color: {% if is_deposit %}var(--accent-emerald){% elif is_withdraw %}var(--accent-rose){% else %}#fff{% endif %};">
+                            {% if is_deposit %}+{% elif is_withdraw %}-{% endif %}₹{{ item.split(' ')[0] if ' ' in item else item }}
+                        </td>
+                        <td style="text-align: right;">
+                            <span style="font-size: 0.76rem; color: var(--accent-emerald); font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                <i class="fa-solid fa-check"></i> Cleared
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <h4 style="color: #fff; margin-bottom: 0.4rem;">No Transactions Recorded Yet</h4>
+            <p style="font-size: 0.9rem;">Perform your first cash deposit or withdrawal to generate transaction history.</p>
+        </div>
+        {% endif %}
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+            <a href="/dashboard" class="btn-secondary" style="flex: 1; text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Main Menu</span>
+            </a>
+            <a href="/checkbalance" class="btn-primary" style="flex: 1; text-decoration: none;">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Check Balance</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

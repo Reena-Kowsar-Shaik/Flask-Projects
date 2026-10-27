@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Apex ATM • Check Balance{% endblock %}
+
+{% block content %}
+<div class="form-center-wrapper" style="max-width: 580px;">
+    <div class="atm-card-glass">
+        {% if info %}
+        <div class="alert-banner alert-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>{{ info }}</span>
+        </div>
+        {% endif %}
+
+        <div class="balance-hero">
+            <span class="balance-status-tag">
+                <span class="status-dot"></span> Available Account Balance
+            </span>
+            <div class="balance-amount">
+                <span class="balance-currency">₹</span>
+                <span>{{ "{:,}".format(balance) if balance is defined else "0" }}</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                Account: <span style="font-family: var(--font-mono); color: #fff;">•••• •••• {{ user.accnum[-4:] if user and user.accnum else '4091' }}</span> • Savings Tier 1
+            </p>
+
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 14px; padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left; font-size: 0.88rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="color: var(--text-muted);">Account Holder</span>
+                    <span style="font-weight: 600; text-transform: capitalize;">{{ user.name if user and user.name else user.username if user else 'Customer' }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="color: var(--text-muted);">Daily Limit</span>
+                    <span style="font-family: var(--font-mono); color: var(--accent-secondary);">₹50,000 / day</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Status</span>
+                    <span style="color: var(--accent-emerald); font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Active & Verified</span>
+                </div>
+            </div>
+
+            <div class="balance-actions-row">
+                <a href="/withdraw" class="btn-primary" style="flex: 1; text-decoration: none;">
+                    <i class="fa-solid fa-money-bill-transfer"></i>
+                    <span>Withdraw</span>
+                </a>
+                <a href="/deposit" class="btn-primary" style="flex: 1; text-decoration: none; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    <span>Deposit</span>
+                </a>
+            </div>
+
+            <div style="margin-top: 1.2rem;">
+                <a href="/dashboard" class="btn-secondary" style="text-decoration: none;">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Return to Main Menu</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
